@@ -1,0 +1,119 @@
+Step 1 : Install samba packages after updating repositories
+
+#	apt-get update
+
+#	apt-get install samba samba-common python-glade2
+
+Creating Yours share
+
+Step 2 : Create folder for Your share.
+
+#	mkdir -p /shares/ahmadshare
+
+Step 3 : Change the ownership to nobody so that everyone can access and store files in that folder.
+
+#	chown nobody:nogroup /shares/ahmadshare/
+
+Step 4 : Now define values in samba configuration to share/shares/anonymous/folder. /etc/samba/smb.conf is the main configurion file for samba .
+Take a backup before editing that file .
+
+#	cp /etc/samba/smb.conf /etc/samba/smb.conf.org
+
+now add the below code at the end of the file to enable share.
+
+#	vim /etc/samba/smb.conf
+
+[Anonymous]
+       comment = ahmad share access
+       path = /shares/ahmadshare
+       browsable = yes
+       writable = yes
+       guest ok = yes
+       read only = no
+       force user = nobody
+       force group = nogroup
+
+Step 5 : Now restart smbd service .
+
+#	service smbd restart
+
+Accesing Samba Share from Your Windows Machine
+
+On your windows go to Start->run->//your_host_ip
+
+
+
+Click ok
+
+
+
+
+
+
+
+
+Creating secured share
+
+
+Secured shares can be accessed using username and password .Here for example, I'm going to create share ahmadsecured.
+Step 6 : Create a folder for share .
+
+#	mkdir -p /shares/ahmadsecured
+
+Step 7 : Create a new group secureshare,so that Users added to this group can access project1 share.
+
+#	addgroup secureshare
+
+Step 8 : Modify ownership and permission for the folder.
+Create a new group secureshare,so that Users added to this group can access ahmadsecure share.
+
+#	mkdir -p /shares/ahmadsecured
+
+#	chown root:secureshare secured/
+
+#	chmod 770 /shares/ahmadsecured/
+
+Step 9 : Now define values in the configuration file .
+
+#	vim /etc/samba/smb.conf
+
+[ahmadsecured]
+         comment = secure Share
+         path = /shares/ahmadsecured
+         valid users = @secureshare
+         guest ok = no
+         writable = yes
+         browsable = yes
+
+
+Step 10 : Now restart smbd service .
+#	service smbd restart
+
+
+After restarting service, you could see ahmadsecured share . Additional secured shares can be created in the same way
+
+Add new user you want to use for samba share on your system
+
+#	adduser ahmad -G secureshare
+
+#	adduser ahmad
+
+#	adduser ahmad secureshare
+
+#	smbpasswd -a ahmad
+
+
+On your windows go to Start->run->//your_host_ip
+
+
+       
+       
+       Click OK
+       
+       
+       
+       Double Click on Your SecuredShare
+       Give your username and  pass
+       
+       
+       

@@ -1,0 +1,12 @@
+Generate a Self-signed Certificate
+The first step is certificate creation. For testing purposes, or for small LANs, you need to generate a private key (ca.key) with 2048 bit encryption.
+To do this, run:
+sudo openssl genrsa -out ca.key 2048
+Then generate a certificate signing request (ca.csr) using the following command:
+sudo openssl req -nodes -new -key ca.key -out ca.csr
+
+
+Lastly, generate a self-signed certificate (ca.crt) of X509 type valid for 365 keys.
+sudo openssl x509 -req -days 365 -in ca.csr -signkey ca.key -out ca.crt
+
+

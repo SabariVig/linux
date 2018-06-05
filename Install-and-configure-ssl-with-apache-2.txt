@@ -1,0 +1,36 @@
+Configure Apache to Use the SSL Certificate:
+Now all the certificates are ready. The next thing to do is to set up the Apache to display the new certificate.
+
+Install apache webserver
+#	apt-get install apache2 -y
+For this, you need to enable SSL support on the Apache default virtual host file located in the /etc/apache2/sites-enable/ directory.
+By default, Openssl is installed in Ubuntu 14.04. This module provides SSL support to Apache. It is disabled by default, so you need to enable the SSL module first.
+You can enable the SSL module by running:
+sudo a2enmod ssl
+After you have enabled SSL, you'll have to restart the Apache service for the change to be recognized.
+sudo service apache2 restart
+
+You can do this by editing the Apache default virtual host config file.
+sudo nano vim /etc/apache2/sites-enabled/000-default.conf
+
+Comment out all the lines by adding a "#" in front of each line and add the following lines:
+
+<VirtualHost *:443>
+                ServerAdmin webmaster@localhost
+                DocumentRoot /var/www/html
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+                SSLEngine on
+                SSLCertificateFile /etc/apache2/ssl/ca.crt
+                SSLCertificateKeyFile /etc/apache2/ssl/ca.key
+</VirtualHost>
+
+Save and close the file, then restart Apache.
+sudo /etc/init.d/apache2 restart
+This should enable your new virtual host which will serve encrypted content using the SSL certificate you created.
+Testing Apache (HTTPS) Server:
+
+
+Goto https://your_ip
+
+
