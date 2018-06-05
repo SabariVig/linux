@@ -1,0 +1,34 @@
+Step 1. Install server.
+Well that is obvious:
+#	sudo apt-get install vsftpd
+
+Step 2. Configure server
+Now, open /etc/vsftpd.conf:
+#	vim /etc/vsftpd.conf
+
+Set/uncomment the following params as shown below
+# Disallow anonymous, unidentified users to access files via FTP; change the anonymous_enable setting to NO:
+anonymous_enable=NO
+# Allow local uses to login by changing the local_enable setting to YES:
+local_enable=YES
+# If you want local user to be able to write to a directory, then change the write_enable setting to YES:
+write_enable=YES
+# Local users will be 'chroot jailed' and they will be denied access to any other part of the server; change the chroot_local_user setting to YES:
+chroot_local_user=YES
+
+chroot_list_enable=NO
+chroot_list_file=/etc/vsftpd.chroot_list
+# Allow users to write to their root directory
+allow_writeable_chroot=YES
+
+Step 3 Change the permission on the files/and folder you want to share
+
+#	chmod a-w /home/ahmad
+
+
+#	mkdir /home/ahmad/files
+
+
+#	chown ahmad:ahmad /home/ahmad/files
+
+	
